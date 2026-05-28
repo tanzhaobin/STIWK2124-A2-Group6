@@ -6,35 +6,37 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class BookService {
-  private apiUrl = 'http://localhost:8080/api/books'; 
+  private apiUrl = 'http://localhost:8080/api/books';
 
   constructor(private http: HttpClient) {}
 
-  // 1. Fetch Paginated Books (GET)
-  getBooks(page: number, size: number): Observable<any> {
-    const params = new HttpParams()
+  getBooks(page: number, size: number, searchQuery?: string): Observable<any> {
+    let params = new HttpParams()
       .set('page', page.toString())
       .set('size', size.toString());
+    
+    if (searchQuery && searchQuery.trim() !== '') {
+      params = params.set('q', searchQuery);
+    }
+    
+    console.log('Calling API:', this.apiUrl, 'with params:', params.toString());
+    
     return this.http.get<any>(this.apiUrl, { params });
   }
 
-  // 2. Search Books (GET)
-  searchBooks(query: string): Observable<any> {
-    const params = new HttpParams().set('query', query);
-    return this.http.get<any>(`${this.apiUrl}/search`, { params });
-  }
+getBookById(id: number): Observable<any> {
+  console.log('Fetching book by ID:', id);
+  return this.http.get<any>(`${this.apiUrl}/${id}`);
+}
 
-  // 3. Add Book (POST)
   addBook(bookData: any): Observable<any> {
     return this.http.post<any>(this.apiUrl, bookData);
   }
 
-  // 4. Update Book (PUT)
   updateBook(id: number, bookData: any): Observable<any> {
     return this.http.put<any>(`${this.apiUrl}/${id}`, bookData);
   }
 
-  // 5. Delete Book (DELETE)
   deleteBook(id: number): Observable<any> {
     return this.http.delete<any>(`${this.apiUrl}/${id}`);
   }

@@ -150,3 +150,62 @@
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
 }
+/* Add these styles to your existing book-list.css */
+
+/* Action buttons styling */
+.action-buttons .btn {
+  transition: all 0.2s ease;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.action-buttons .btn-outline-primary {
+  border-color: rgba(79, 70, 229, 0.3);
+  color: #4f46e5;
+}
+
+.action-buttons .btn-outline-primary:hover {
+  background: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);
+  border-color: transparent;
+  color: white;
+  transform: translateY(-2px);
+}
+
+.action-buttons .btn-outline-danger {
+  border-color: rgba(220, 53, 69, 0.3);
+  color: #dc3545;
+}
+
+.action-buttons .btn-outline-danger:hover {
+  background: #dc3545;
+  border-color: transparent;
+  color: white;
+  transform: translateY(-2px);
+}
+
+/* Floating Add Button styling */
+.btn-gradient-primary.rounded-pill {
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  transition: all 0.3s ease;
+}
+
+.btn-gradient-primary.rounded-pill:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px -5px rgba(79, 70, 229, 0.3);
+}/* Smooth page transition */
+.row.g-4 {
+  transition: opacity 0.2s ease;
+}
+
+/* Disabled button styling */
+.btn-pagination-glass:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-pagination-glass:disabled:hover {
+  background: rgba(255, 255, 255, 0.6) !important;
+  color: #111827 !important;
+  transform: none;
+}

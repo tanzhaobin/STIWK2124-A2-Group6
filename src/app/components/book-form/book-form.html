@@ -1,67 +1,172 @@
-<h2>📝 Book Entry Form</h2>
-<a routerLink="/books">⬅ Back to List</a>
+<div class="dashboard-bg min-vh-100">
+  <div class="container py-5">
+    
+    <div class="row justify-content-center">
+      <div class="col-md-8 col-lg-6">
+        
+        <div class="text-center mb-4">
+          <a routerLink="/books" class="btn btn-link text-decoration-none">
+            <i class="bi bi-arrow-left"></i> Back to Books
+          </a>
+          <h1 class="display-5 fw-bold main-title mt-3">
+            {{ isEditMode ? '✏️ Edit Book' : '➕ Add New Book' }}
+          </h1>
+          <p class="text-muted">All fields marked with <span class="text-danger">*</span> are required</p>
+        </div>
 
-<div class="form-container">
-  <div class="form-header">
-    <h2>{{ isEditMode ? '✏️ Edit Book Details' : '➕ Add New Book Entry' }}</h2>
-    <p>Please populate the parameters below to update the repository database catalog.</p>
+        <div class="glass-card rounded-4 p-4 p-md-5">
+          
+          <form (ngSubmit)="saveBook()">
+            
+            <!-- TITLE FIELD -->
+            <div class="mb-4">
+              <label class="form-label fw-semibold">
+                Title <span class="text-danger">*</span>
+              </label>
+              <input type="text" 
+                     class="form-control form-control-lg"
+                     [class.is-invalid]="showTitleError()"
+                     [class.is-valid]="!showTitleError() && isTitleValid() && book.title !== ''"
+                     [(ngModel)]="book.title" 
+                     name="title" 
+                     placeholder="Enter book title"
+                     (focus)="markTouched('title')"
+                     (blur)="markTouched('title')"
+                     (input)="markTouched('title')">
+              
+              <!-- Red warning - Only shows after field is touched -->
+              <div *ngIf="showTitleError()" class="invalid-feedback d-block">
+                <i class="bi bi-exclamation-triangle-fill me-1"></i>
+                Title is required (minimum 2 characters)
+              </div>
+              <div *ngIf="!showTitleError() && isTitleValid() && book.title !== ''" class="valid-feedback d-block">
+                <i class="bi bi-check-circle-fill me-1"></i>
+                Title looks good!
+              </div>
+              <small class="text-muted">Example: Clean Code (minimum 2 characters)</small>
+            </div>
+
+            <!-- AUTHOR FIELD -->
+            <div class="mb-4">
+              <label class="form-label fw-semibold">
+                Author <span class="text-danger">*</span>
+              </label>
+              <input type="text" 
+                     class="form-control form-control-lg"
+                     [class.is-invalid]="showAuthorError()"
+                     [class.is-valid]="!showAuthorError() && isAuthorValid() && book.author !== ''"
+                     [(ngModel)]="book.author" 
+                     name="author" 
+                     placeholder="Enter author name"
+                     (focus)="markTouched('author')"
+                     (blur)="markTouched('author')"
+                     (input)="markTouched('author')">
+              
+              <div *ngIf="showAuthorError()" class="invalid-feedback d-block">
+                <i class="bi bi-exclamation-triangle-fill me-1"></i>
+                Author is required (minimum 2 characters)
+              </div>
+              <div *ngIf="!showAuthorError() && isAuthorValid() && book.author !== ''" class="valid-feedback d-block">
+                <i class="bi bi-check-circle-fill me-1"></i>
+                Author looks good!
+              </div>
+              <small class="text-muted">Example: Robert C. Martin (minimum 2 characters)</small>
+            </div>
+
+            <!-- CATEGORY FIELD -->
+            <div class="mb-4">
+              <label class="form-label fw-semibold">
+                Category <span class="text-danger">*</span>
+              </label>
+              <select class="form-select form-select-lg"
+                      [class.is-invalid]="showCategoryError()"
+                      [class.is-valid]="!showCategoryError() && isCategoryValid()"
+                      [(ngModel)]="book.category" 
+                      name="category"
+                      (focus)="markTouched('category')"
+                      (blur)="markTouched('category')"
+                      (change)="markTouched('category')">
+                <option value="">-- Select a category --</option>
+                <option value="Software Engineering">Software Engineering</option>
+                <option value="Computer Science">Computer Science</option>
+                <option value="User Experience">User Experience</option>
+                <option value="Mathematics">Mathematics</option>
+                <option value="Data Science">Data Science</option>
+              </select>
+              
+              <div *ngIf="showCategoryError()" class="invalid-feedback d-block">
+                <i class="bi bi-exclamation-triangle-fill me-1"></i>
+                Please select a category
+              </div>
+              <div *ngIf="!showCategoryError() && isCategoryValid()" class="valid-feedback d-block">
+                <i class="bi bi-check-circle-fill me-1"></i>
+                Category selected!
+              </div>
+            </div>
+
+            <!-- DESCRIPTION FIELD -->
+            <div class="mb-4">
+              <label class="form-label fw-semibold">
+                Description <span class="text-danger">*</span>
+              </label>
+              <textarea class="form-control" 
+                        rows="4"
+                        [class.is-invalid]="showDescriptionError()"
+                        [class.is-valid]="!showDescriptionError() && isDescriptionValid() && book.shortDescription !== ''"
+                        [(ngModel)]="book.shortDescription" 
+                        name="shortDescription" 
+                        placeholder="Enter book description"
+                        (focus)="markTouched('shortDescription')"
+                        (blur)="markTouched('shortDescription')"
+                        (input)="markTouched('shortDescription')"></textarea>
+              
+              <div *ngIf="showDescriptionError()" class="invalid-feedback d-block">
+                <i class="bi bi-exclamation-triangle-fill me-1"></i>
+                Description is required (minimum 10 characters)
+                <span *ngIf="book.shortDescription.length > 0"> - Currently: {{ book.shortDescription.length }}/10</span>
+              </div>
+              <div *ngIf="!showDescriptionError() && isDescriptionValid() && book.shortDescription !== ''" class="valid-feedback d-block">
+                <i class="bi bi-check-circle-fill me-1"></i>
+                Description looks good! ({{ book.shortDescription.length }}/10)
+              </div>
+              <small class="text-muted">Minimum 10 characters</small>
+            </div>
+
+            <!-- WARNING BOX - Only shows after submit or when fields are touched -->
+            <div *ngIf="(touchedFields.title || touchedFields.author || touchedFields.category || touchedFields.shortDescription) && !isFormValid()" class="alert alert-danger mb-4">
+              <i class="bi bi-exclamation-triangle-fill me-2"></i>
+              <strong>Please fix these errors:</strong>
+              <ul class="mt-2 mb-0">
+                <li *ngIf="showTitleError()">✗ Title is required (minimum 2 characters)</li>
+                <li *ngIf="showAuthorError()">✗ Author is required (minimum 2 characters)</li>
+                <li *ngIf="showCategoryError()">✗ Please select a category</li>
+                <li *ngIf="showDescriptionError()">✗ Description must be at least 10 characters</li>
+              </ul>
+            </div>
+
+            <!-- SUCCESS BOX -->
+            <div *ngIf="isFormValid()" class="alert alert-success mb-4">
+              <i class="bi bi-check-circle-fill me-2"></i>
+              <strong>All fields valid!</strong> You can now save this book.
+            </div>
+
+            <!-- BUTTONS -->
+            <div class="d-flex gap-3">
+              <button type="button" class="btn btn-outline-secondary btn-lg flex-grow-1" 
+                      routerLink="/books">Cancel</button>
+              <button type="submit" class="btn btn-gradient-primary btn-lg flex-grow-1"
+                      [disabled]="!isFormValid()">
+                {{ isEditMode ? 'Update Book' : 'Save Book' }}
+              </button>
+            </div>
+            
+            <!-- EDIT MODE INDICATOR -->
+            <div *ngIf="isEditMode" class="text-center mt-3">
+              <small class="text-muted">Editing Book ID: {{ bookId }}</small>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
   </div>
-
-  <form (ngSubmit)="saveBook()" #bookForm="ngForm">
-    <div class="form-group">
-      <label for="title">Book Title</label>
-      <input 
-        type="text" 
-        id="title" 
-        name="title" 
-        [(ngModel)]="book.title" 
-        required 
-        placeholder="e.g., Software Engineering Principles"
-      />
-    </div>
-
-    <div class="form-group">
-      <label for="author">Author Name</label>
-      <input 
-        type="text" 
-        id="author" 
-        name="author" 
-        [(ngModel)]="book.author" 
-        required 
-        placeholder="e.g., Ian Sommerville"
-      />
-    </div>
-
-    <div class="form-group">
-      <label for="price">Retail Price ($)</label>
-      <input 
-        type="number" 
-        id="price" 
-        name="price" 
-        [(ngModel)]="book.price" 
-        required 
-        step="0.01"
-        placeholder="0.00"
-      />
-    </div>
-
-    <div class="form-group">
-      <label for="isbn">ISBN Code</label>
-      <input 
-        type="text" 
-        id="isbn" 
-        name="isbn" 
-        [(ngModel)]="book.isbn" 
-        required 
-        placeholder="e.g., 978-0133943030"
-      />
-    </div>
-
-    <div class="form-actions">
-      <button type="button" class="btn btn-cancel" [routerLink]="['/books']">Cancel</button>
-      <button type="submit" class="btn btn-submit" [disabled]="!bookForm.form.valid">
-        {{ isEditMode ? 'Update Record' : 'Save Book' }}
-      </button>
-    </div>
-  </form>
 </div>
