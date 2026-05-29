@@ -18,7 +18,6 @@
           
           <form (ngSubmit)="saveBook()">
             
-            <!-- TITLE FIELD -->
             <div class="mb-4">
               <label class="form-label fw-semibold">
                 Title <span class="text-danger">*</span>
@@ -34,7 +33,6 @@
                      (blur)="markTouched('title')"
                      (input)="markTouched('title')">
               
-              <!-- Red warning - Only shows after field is touched -->
               <div *ngIf="showTitleError()" class="invalid-feedback d-block">
                 <i class="bi bi-exclamation-triangle-fill me-1"></i>
                 Title is required (minimum 2 characters)
@@ -46,7 +44,6 @@
               <small class="text-muted">Example: Clean Code (minimum 2 characters)</small>
             </div>
 
-            <!-- AUTHOR FIELD -->
             <div class="mb-4">
               <label class="form-label fw-semibold">
                 Author <span class="text-danger">*</span>
@@ -73,7 +70,6 @@
               <small class="text-muted">Example: Robert C. Martin (minimum 2 characters)</small>
             </div>
 
-            <!-- CATEGORY FIELD -->
             <div class="mb-4">
               <label class="form-label fw-semibold">
                 Category <span class="text-danger">*</span>
@@ -104,7 +100,6 @@
               </div>
             </div>
 
-            <!-- DESCRIPTION FIELD -->
             <div class="mb-4">
               <label class="form-label fw-semibold">
                 Description <span class="text-danger">*</span>
@@ -123,16 +118,15 @@
               <div *ngIf="showDescriptionError()" class="invalid-feedback d-block">
                 <i class="bi bi-exclamation-triangle-fill me-1"></i>
                 Description is required (minimum 10 characters)
-                <span *ngIf="book.shortDescription.length > 0"> - Currently: {{ book.shortDescription.length }}/10</span>
+                <span *ngIf="book.shortDescription?.length > 0"> - Currently: {{ book.shortDescription.length }}/10</span>
               </div>
               <div *ngIf="!showDescriptionError() && isDescriptionValid() && book.shortDescription !== ''" class="valid-feedback d-block">
                 <i class="bi bi-check-circle-fill me-1"></i>
-                Description looks good! ({{ book.shortDescription.length }}/10)
+                Description looks good! ({{ book.shortDescription?.length }}/10)
               </div>
               <small class="text-muted">Minimum 10 characters</small>
             </div>
 
-            <!-- WARNING BOX - Only shows after submit or when fields are touched -->
             <div *ngIf="(touchedFields.title || touchedFields.author || touchedFields.category || touchedFields.shortDescription) && !isFormValid()" class="alert alert-danger mb-4">
               <i class="bi bi-exclamation-triangle-fill me-2"></i>
               <strong>Please fix these errors:</strong>
@@ -144,13 +138,11 @@
               </ul>
             </div>
 
-            <!-- SUCCESS BOX -->
-            <div *ngIf="isFormValid()" class="alert alert-success mb-4">
+            <div class="alert alert-success mb-4" *ngIf="isFormValid()">
               <i class="bi bi-check-circle-fill me-2"></i>
               <strong>All fields valid!</strong> You can now save this book.
             </div>
 
-            <!-- BUTTONS -->
             <div class="d-flex gap-3">
               <button type="button" class="btn btn-outline-secondary btn-lg flex-grow-1" 
                       routerLink="/books">Cancel</button>
@@ -160,7 +152,6 @@
               </button>
             </div>
             
-            <!-- EDIT MODE INDICATOR -->
             <div *ngIf="isEditMode" class="text-center mt-3">
               <small class="text-muted">Editing Book ID: {{ bookId }}</small>
             </div>

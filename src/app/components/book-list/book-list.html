@@ -1,7 +1,6 @@
 <div class="dashboard-bg d-flex flex-column justify-content-between min-vh-100">
   <div class="container py-5">
     
-    <!-- Header -->
     <div class="row mb-5 text-center">
       <div class="col">
         <span class="badge rounded-pill premium-tag mb-3 px-3 py-2">
@@ -19,7 +18,6 @@
       </div>
     </div>
 
-    <!-- Search -->
     <div class="row mb-5 justify-content-center">
       <div class="col-md-8 col-lg-6">
         <div class="search-glass-wrapper p-1 rounded-4">
@@ -41,8 +39,7 @@
       </div>
     </div>
 
-    <!-- Books Grid - NO LOADING SPINNER, just shows books when ready -->
-    <div class="row g-4">
+    <div class="row g-4" *ngIf="books && books.length > 0">
       <div class="col-md-6 col-lg-4" *ngFor="let book of books">
         <div class="card h-100 glass-card border-0 rounded-4 transition-hover">
           <div class="card-body d-flex flex-column p-4">
@@ -56,7 +53,7 @@
             <h3 class="card-title fw-bold mb-1">{{ book.title }}</h3>
             <p class="text-secondary mb-3">by {{ book.author }}</p>
             <p class="card-text text-secondary flex-grow-1 mb-4">
-              {{ book.shortDescription || book.short_description || 'No description' }}
+              {{ book.shortDescription || book.short_description || 'No description available for this volume.' }}
             </p>
             
             <div class="d-flex justify-content-between align-items-center pt-3 border-top-glass">
@@ -67,7 +64,7 @@
                   <i class="bi bi-pencil-square"></i> Edit
                 </a>
                 <button class="btn btn-sm btn-outline-danger rounded-pill px-3" 
-                        (click)="deleteBook(book.bookID || book.id)">
+                        (click)="onDeleteBook(book.bookID || book.id)">
                   <i class="bi bi-trash3"></i> Delete
                 </button>
               </div>
@@ -77,34 +74,34 @@
       </div>
     </div>
 
-    <!-- Empty State -->
-    <div *ngIf="books.length === 0" class="text-center py-5 my-5">
+    <div *ngIf="!books || books.length === 0" class="text-center py-5 my-5">
       <div class="glass-empty-state rounded-4 p-5">
         <i class="bi bi-book-half display-1 text-primary"></i>
         <h3 class="fw-bold mt-3">No Books Found</h3>
-        <p>Add your first book to get started.</p>
+        <p class="text-secondary">Your collection is empty or matches no query parameters.</p>
         <a routerLink="/books/add" class="btn btn-gradient-primary mt-3">
           <i class="bi bi-plus-lg me-2"></i> Add New Book
         </a>
       </div>
     </div>
 
-    <!-- Pagination -->
-    <nav *ngIf="books.length > 0 && totalPages > 1" class="mt-5">
+    <nav *ngIf="books && books.length > 0 && totalPages > 1" class="mt-5">
       <ul class="pagination justify-content-center gap-3">
-        <li [class.disabled]="currentPage === 0">
+        <li>
           <button class="page-link btn-pagination-glass rounded-3 px-4 py-2" 
+                  [disabled]="currentPage === 0"
                   (click)="goToPreviousPage()">
             Previous
           </button>
         </li>
         <li class="disabled d-flex align-items-center">
-          <span class="px-4 py-2 bg-white rounded-pill shadow-sm">
+          <span class="px-4 py-2 bg-white rounded-pill shadow-sm text-dark fw-semibold">
             {{ currentPage + 1 }} / {{ totalPages }}
           </span>
         </li>
-        <li [class.disabled]="currentPage >= totalPages - 1">
+        <li>
           <button class="page-link btn-pagination-glass rounded-3 px-4 py-2" 
+                  [disabled]="currentPage >= totalPages - 1"
                   (click)="goToNextPage()">
             Next
           </button>

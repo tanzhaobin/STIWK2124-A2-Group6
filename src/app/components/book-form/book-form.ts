@@ -52,12 +52,13 @@ export class BookForm implements OnInit {
           title: data.title || '',
           author: data.author || '',
           category: data.category || '',
+          // Maps both possible JSON formats coming out of Spring Boot securely
           shortDescription: data.shortDescription || data.short_description || ''
         };
       },
       error: (err) => {
-        console.error(err);
-        alert('Failed to load book');
+        console.error('Error fetching book profile:', err);
+        alert('Failed to load book parameters.');
         this.router.navigate(['/books']);
       }
     });
@@ -80,19 +81,19 @@ export class BookForm implements OnInit {
 
   // Validation methods - return true if valid
   isTitleValid(): boolean {
-    return this.book.title && this.book.title.trim().length >= 2;
+    return !!(this.book.title && this.book.title.trim().length >= 2);
   }
 
   isAuthorValid(): boolean {
-    return this.book.author && this.book.author.trim().length >= 2;
+    return !!(this.book.author && this.book.author.trim().length >= 2);
   }
 
   isCategoryValid(): boolean {
-    return this.book.category && this.book.category.trim() !== '';
+    return !!(this.book.category && this.book.category.trim() !== '');
   }
 
   isDescriptionValid(): boolean {
-    return this.book.shortDescription && this.book.shortDescription.trim().length >= 10;
+    return !!(this.book.shortDescription && this.book.shortDescription.trim().length >= 10);
   }
 
   isFormValid(): boolean {
@@ -107,6 +108,7 @@ export class BookForm implements OnInit {
     return this.touchedFields.title && !this.isTitleValid();
   }
 
+  // Helper getters to check if a field is invalid for dynamic CSS class bindings
   showAuthorError(): boolean {
     return this.touchedFields.author && !this.isAuthorValid();
   }
@@ -120,27 +122,42 @@ export class BookForm implements OnInit {
   }
 
   saveBook(): void {
-    this.markAllTouched(); // Mark all fields as touched on submit
+    this.markAllTouched(); // Ensure validation flags light up if missing criteria
     
     if (!this.isFormValid()) {
-      return; // Don't save if invalid
+      return; // Stop execution if validation fails
     }
 
+    // Build the payload mapping both naming convention variants for optimal backend compatibility
+    const payload = {
+      title: this.book.title,
+      author: this.book.author,
+      category: this.book.category,
+      shortDescription: this.book.shortDescription,
+      short_description: this.book.shortDescription
+    };
+
     if (this.isEditMode && this.bookId) {
-      this.bookService.updateBook(this.bookId, this.book).subscribe({
+      this.bookService.updateBook(this.bookId, payload).subscribe({
         next: () => {
           alert('Book updated successfully!');
           this.router.navigate(['/books']);
         },
-        error: () => alert('Update failed')
+        error: (err) => {
+          console.error('Update operation failed:', err);
+          alert('Update failed');
+        }
       });
     } else {
-      this.bookService.addBook(this.book).subscribe({
+      this.bookService.addBook(payload).subscribe({
         next: () => {
           alert('Book added successfully!');
           this.router.navigate(['/books']);
         },
-        error: () => alert('Add failed')
+        error: (err) => {
+          console.error('Add operation failed:', err);
+          alert('Add failed');
+        }
       });
     }
   }
