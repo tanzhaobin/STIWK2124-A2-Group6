@@ -9,7 +9,7 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     provideHttpClient(
-      withInterceptors([authInterceptor]) // This officially activates your security guard!
+      withInterceptors([authInterceptor])
     )
   ]
 };

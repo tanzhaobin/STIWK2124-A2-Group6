@@ -20,14 +20,13 @@ export class BookService {
     }
     
     console.log('Calling API:', this.apiUrl, 'with params:', params.toString());
-    
     return this.http.get<any>(this.apiUrl, { params });
   }
 
-getBookById(id: number): Observable<any> {
-  console.log('Fetching book by ID:', id);
-  return this.http.get<any>(`${this.apiUrl}/${id}`);
-}
+  getBookById(id: number): Observable<any> {
+    console.log('Fetching book by ID:', id);
+    return this.http.get<any>(`${this.apiUrl}/${id}`);
+  }
 
   addBook(bookData: any): Observable<any> {
     return this.http.post<any>(this.apiUrl, bookData);
