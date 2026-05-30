@@ -1,4 +1,24 @@
 # STIWK2124A2Group6
+This project is to build the frontend & Integrate Securely and link with the backend database that we done in Assginment 1
+
+### 👥 Group 6 Members & Responsibilities
+
+- **Desmond Yap Teik Jun (304294)** — *Team Leader* | Book Management Form & Client-Side Validation
+- **Wong Zheng Quan (303872)** — Git Management, Testing & Media Deliverables
+- **Tan Zhao Bin (304666)** — Core Architecture, Routing & Secure HTTP Client
+- **Nuranisya binti Ramlan (301119)** — The Search Box & Paginated List UI
+- **Tan Xuan Jie (303956)** — CORS Configuration & Accessibility Integration
+
+## Setup & Installation tools:
+•	Java 17 or higher
+•	IDE: Visual Stadio Code(with Java Extension Pack)
+•	MySQL 8.0
+•	Maven 3.x
+
+## Step for setup
+1) Open a new folder in your computer.
+2) Open command prompt and type cd [your folder path]
+3) git clone 
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.5.
 
