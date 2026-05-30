@@ -25,8 +25,14 @@ This project is to build the frontend & Integrate Securely and link with the bac
 7) We open Mysql workbench and run with our database
 
 ## 2-3 screenshots of list, search, and form validation 
-### Sreenshot 1
+### Screenshot 1
+<img width="1890" height="862" alt="Screenshot 2026-05-30 172429" src="https://github.com/user-attachments/assets/7ca99909-a54c-4471-858c-97bce634565a" />
 
+### Screenshot 2
+<img width="1899" height="866" alt="image" src="https://github.com/user-attachments/assets/bb9f3221-5246-40de-b32e-8af3df7eb936" />
+
+### Screenshot 3
+<img width="1910" height="863" alt="image" src="https://github.com/user-attachments/assets/4df122a2-63ab-47b1-bef8-999116e5bb4e" />
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.5.
 
