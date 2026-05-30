@@ -34,6 +34,14 @@ This project is to build the frontend & Integrate Securely and link with the bac
 ### Screenshot 3
 <img width="1910" height="863" alt="image" src="https://github.com/user-attachments/assets/4df122a2-63ab-47b1-bef8-999116e5bb4e" />
 
+
+### Vedio link
+https://youtu.be/Vi3PfT-VYvA?si=VX8CnK04Bj1TWPlZ
+
+
+
+
+
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.5.
 
 ## Development server
