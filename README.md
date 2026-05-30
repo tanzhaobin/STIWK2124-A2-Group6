@@ -18,7 +18,15 @@ This project is to build the frontend & Integrate Securely and link with the bac
 ## Step for setup
 1) Open a new folder in your computer.
 2) Open command prompt and type cd [your folder path]
-3) git clone 
+3) git clone https://github.com/tanzhaobin/STIWK2124-A2-Group6.git
+4) npm install
+5) Start up front end server with type ng serve
+6) To connect with our backend, we must go to Visual Studio Code and go to source control and click clone from github
+7) We open Mysql workbench and run with our database
+
+## 2-3 screenshots of list, search, and form validation 
+### Sreenshot 1
+
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.5.
 
