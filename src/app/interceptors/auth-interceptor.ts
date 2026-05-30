@@ -1,9 +1,9 @@
-import { HttpInterceptorFn } from '@angular/common/http';
+import { HttpInterceptorFn, HttpErrorResponse } from '@angular/common/http';
+import { catchError, throwError } from 'rxjs'; 
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const method = req.method;
 
-  // Intercept write operations: POST, PUT, DELETE
   if (method === 'POST' || method === 'PUT' || method === 'DELETE') {
     const username = 'admin';
     const password = 'password123';
@@ -14,9 +14,23 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
         Authorization: `Basic ${credentials}`
       }
     });
-    return next(secureReq);
+
+    return next(secureReq).pipe(
+      catchError((error: HttpErrorResponse) => {
+        if (error.status === 0 || error.status >= 500) {
+          alert('⚠️ Connection Timeout or Backend Server Down! Please try again later.');
+        }
+        return throwError(() => error);
+      })
+    );
   }
 
-  // Let public GET requests pass through directly
-  return next(req);
+  return next(req).pipe(
+    catchError((error: HttpErrorResponse) => {
+      if (error.status === 0 || error.status >= 500) {
+        alert('⚠️ Connection Timeout or Backend Server Down! Please try again later.');
+      }
+      return throwError(() => error);
+    })
+  );
 };

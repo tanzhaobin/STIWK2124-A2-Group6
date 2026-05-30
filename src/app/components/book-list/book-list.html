@@ -67,6 +67,10 @@
                         (click)="onDeleteBook(book.bookID || book.id)">
                   <i class="bi bi-trash3"></i> Delete
                 </button>
+                <button class="btn btn-sm btn-outline-info rounded-pill px-3" 
+                        (click)="readAloud(book.title, book.author)">
+                  <i class="bi bi-volume-up-fill"></i> Read Aloud
+                </button>
               </div>
             </div>
           </div>

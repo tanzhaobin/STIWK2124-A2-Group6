@@ -76,4 +76,9 @@ export class BookListComponent implements OnInit {
       this.loadBooks();
     }
   }
+  readAloud(title: string, author: string): void {
+    const textToSpeak = `Book Title: ${title}, written by ${author}`;
+    const utterance = new SpeechSynthesisUtterance(textToSpeak);
+    window.speechSynthesis.speak(utterance);
+  }
 }
